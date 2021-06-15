@@ -36,7 +36,7 @@ func menor(a int,b int) int{
 }
 
 func CargarCanales() []Recurso{
-	records, err := ReadCSVFromUrl("https://raw.githubusercontent.com/HydraGriua/ta2/main/Inventario.csv")
+	records, err := ReadCSVFromUrl("https://raw.githubusercontent.com/HydraGriua/ta2-PrograConcurrenteDistribuida/main/Inventario.csv")
 	//records, err := readData("Inventario.csv")
 	Errcheck(err)
 	chns := make([]chan Recurso, 5)
