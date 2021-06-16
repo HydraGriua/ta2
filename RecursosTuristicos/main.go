@@ -4,19 +4,23 @@ import (
 	m "RecursosTuristicos/reader"
 	g "RecursosTuristicos/sorter"
 	"encoding/json"
-	"fmt"
+	//"fmt"
 	"io"
 	"log"
 	"math"
 	"net/http"
 	"strings"
 )
-var recursos []m.Recurso
-func printParam(aea string){
-	if aea == "" {
-		fmt.Print("aea")
-	}else{fmt.Print(aea)}
+type Ubicacion struct {
+	x float64
+	y float64
 }
+var recursos []m.Recurso
+// func printParam(aea string){
+// 	if aea == "" {
+// 		fmt.Print("aea")
+// 	}else{fmt.Print(aea)}
+// }
 func Listar(res http.ResponseWriter, req *http.Request) {
 	region := req.FormValue("region")
 	provincia := req.FormValue("provincia")
@@ -48,25 +52,36 @@ func Listar(res http.ResponseWriter, req *http.Request) {
 		io.WriteString(res, string(jsonBytes))
 	}
 }
-func kn(ar []m.Recurso, k int, v m.Recurso) []m.RecursoD {
-	var arraux, arraux2 []m.RecursoD
+func ListarFiltrado(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("Content-Type", "application/json; charset=utf-8")
+	aea := Ubicacion{
+		x: -76.17,
+		y: -6.60,
+	}
+	jsonBytes, _ := json.MarshalIndent(kn(recursos,100,aea), "", " ")
+	io.WriteString(res, string(jsonBytes))
+}
+func kn(ar []m.Recurso, k int, x Ubicacion) []m.RecursoD {
+	var arraux []m.RecursoD
 	for i := 0; i < len(ar); i++{
-		distance := math.Sqrt(math.Pow(ar[i].LONGITUD - v.LONGITUD,2) + math.Pow(ar[i].LATITUD - v.LATITUD,2));
+		distance := math.Sqrt(math.Pow(ar[i].LONGITUD - x.x,2) + math.Pow(ar[i].LATITUD - x.y,2));
 		recurso := m.RecursoD {
 			RECURSO: ar[i],
-			DIST: int(distance),
+			DIST: distance,
 		}
 		arraux = append(arraux,recurso)
 	}
 	dist := func(p1, p2 *m.RecursoD) bool {
 		 		return p1.DIST < p2.DIST
 	}
-	decreasingDist := func(p1, p2 *m.RecursoD) bool {
-		return dist(p2, p1)
-	}
-	g.By(decreasingDist).Sort(arraux)
-	arraux2 = append(arraux2,arraux[0],arraux[1],arraux[2])
-	return arraux2
+	// decreasingDist := func(p1, p2 *m.RecursoD) bool {
+	// 	return dist(p2, p1)
+	// }
+	g.By(dist).Sort(arraux)
+	// for i:=0; i< k; i++ {
+	// 	arraux2 = append(arraux2,arraux[i])
+	// }
+	return arraux
 }
 // func getRecursoByRegionName(res http.ResponseWriter, req *http.Request) {
 //     nombre := req.FormValue("nombre")
@@ -85,6 +100,7 @@ func kn(ar []m.Recurso, k int, v m.Recurso) []m.RecursoD {
 
 func handleRequest() {
 	http.HandleFunc("/listar", Listar)
+	http.HandleFunc("/listarF", ListarFiltrado)
 	//http.HandleFunc("/region",getRecursoByRegionName)
 	log.Fatal(http.ListenAndServe(":9000", nil))
 }

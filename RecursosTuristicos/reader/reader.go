@@ -24,7 +24,7 @@ type Recurso struct {
 }
 type RecursoD struct {
 	RECURSO Recurso
-	DIST int
+	DIST float64
 }
 func Errcheck(er error) {
 	if er != nil {

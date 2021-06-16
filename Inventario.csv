@@ -1,5 +1,5 @@
 ﻿REGION,PROVINCIA,DISTRITO,CODIGO,NOMBRE,CATEGORIA,TIPO,SUBTIPO,URL,LATITUD,LONGITUD
-Cusco,Cusco,CUSCO,11,Festividad Del Señor De Los Temblores,5. ACONTECIMIENTOS PROGRAMADOS,Fiestas,Fiestas religiosas-patronales,http://ficha.sigmincetur.mincetur.gob.pe/index.aspx?cod_Ficha=11,-71.9801,-13.5153
+pCusco,Cusco,CUSCO,11,Festividad Del Señor De Los Temblores,5. ACONTECIMIENTOS PROGRAMADOS,Fiestas,Fiestas religiosas-patronales,http://ficha.sigmincetur.mincetur.gob.pe/index.aspx?cod_Ficha=11,-71.9801,-13.5153
 Cusco,Canas,LANGUI,12,Laguna De Langui-Layo,1. SITIOS NATURALES,g. Cuerpo de Agua,Lagunas,http://ficha.sigmincetur.mincetur.gob.pe/index.aspx?cod_Ficha=12,-71.16602045996092,-14.499080282861806
 Cajamarca,Contumaza,YONAN,16,Petrogligos De Yonan,2. MANIFESTACIONES CULTURALES,Sitios Arqueológicos,Petroglifos (Grabados en piedra),http://ficha.sigmincetur.mincetur.gob.pe/index.aspx?cod_Ficha=16,-79.130786,-7.2531078579146415
 Amazonas,Chachapoyas,LEVANTO,17,Sitio Arqueológico De Collacruz,2. MANIFESTACIONES CULTURALES,Sitios Arqueológicos,Templos,http://ficha.sigmincetur.mincetur.gob.pe/index.aspx?cod_Ficha=17,-77.89887399999998,-6.308009
@@ -25,7 +25,7 @@ Madre De Dios,Tambopata,LABERINTO,46,Lago Pastora Grande,1. SITIOS NATURALES,g. 
 Piura,Piura,CASTILLA,47,Represa Los Ejidos,"4. REALIZACIONES TÉCNICAS, CIENTÍFICAS Y ARTÍSTICAS CONTEMPORÁNEAS",Centros Científicos y Técnicos,Represas,http://ficha.sigmincetur.mincetur.gob.pe/index.aspx?cod_Ficha=47,-80.6146502494812,-5.15925405822565
 Piura,Piura,CATACAOS,48,Pueblo Simbila,2. MANIFESTACIONES CULTURALES,Pueblos,Tradicionales,http://ficha.sigmincetur.mincetur.gob.pe/index.aspx?cod_Ficha=48,-80.65157890319824,-5.246814583692445
 Piura,Piura,PIURA,49,Iglesia Nuestra Señora Del Carmen,2. MANIFESTACIONES CULTURALES,Arquitectura y Espacios Urbanos,Iglesias,http://ficha.sigmincetur.mincetur.gob.pe/index.aspx?cod_Ficha=49,-80.62566608190536,-5.193248647927614
-Piura,Piura,PIURA,50,Parque Ecologico Kurt Beer,2. MANIFESTACIONES CULTURALES,Arquitectura y Espacios Urbanos,Parques,http://ficha.sigmincetur.mincetur.gob.pe/index.aspx?cod_Ficha=50,-80.66737309098244,-5.208107683417542
+Piura,Piura,PIURA,50,Parque Ecologico Kurt Beer,2. MANIFESTACIONES CULTURALES,Arquitectura y Esacios Urbanos,Parques,http://ficha.sigmincetur.mincetur.gob.pe/index.aspx?cod_Ficha=50,-80.66737309098244,-5.208107683417542
 Piura,Sechura,SECHURA,53,Playa Las Delicias,1. SITIOS NATURALES,Costas,Playas,http://ficha.sigmincetur.mincetur.gob.pe/index.aspx?cod_Ficha=53,-80.85269199999999,-5.700647
 Piura,Sechura,SECHURA,54,Playa Punta Nunura O Shode,1. SITIOS NATURALES,Costas,Playas,http://ficha.sigmincetur.mincetur.gob.pe/index.aspx?cod_Ficha=54,-81.12722300000001,-5.859427
 Piura,Sechura,SECHURA,56,Isla Lobos De Tierra,1. SITIOS NATURALES,Costas,Islas,http://ficha.sigmincetur.mincetur.gob.pe/index.aspx?cod_Ficha=56,-80.85474014282226,-6.435741924446014
@@ -4927,7 +4927,7 @@ Lima,Lima,LURIN,"10,847",Fiesta Y Procesión Del Señor De La Columna,5. ACONTEC
 Cusco,Anta,MOLLEPATA,"10,308",Laguna De Humantay,1. SITIOS NATURALES,g. Cuerpo de Agua,Lagunas,http://ficha.sigmincetur.mincetur.gob.pe/index.aspx?cod_Ficha=10308,-72.57277213205577,-13.383102
 Cusco,Quispicanchi,MARCAPATA,"10,304",Laguna Sirenacocha,1. SITIOS NATURALES,g. Cuerpo de Agua,Lagunas,http://ficha.sigmincetur.mincetur.gob.pe/index.aspx?cod_Ficha=10304,-71.1604358608833,-13.650737
 La Libertad,Pacasmayo,PACASMAYO,"10,320",Mirador Del Cristo Redentor,2. MANIFESTACIONES CULTURALES,Arquitectura y Espacios Urbanos,Miradores,http://ficha.sigmincetur.mincetur.gob.pe/index.aspx?cod_Ficha=10320,-79.5703666,-7.397547
-La Libertad,Pacasmayo,PACASMAYO,"10,330",Iglesia Nuestra Señora De Guadalupe De Pacasmayo,2. MANIFESTACIONES CULTURALES,Arquitectura y Espacios Urbanos,Iglesias,http://ficha.sigmincetur.mincetur.gob.pe/index.aspx?cod_Ficha=10330,-7.3999305,-79.5717542
+La Libertad,Pacasmayo,PACASMAYO,"10,330",Iglesia Nuestra Señora De Guadalupe De Pacasmayo,2. MANIFESTACIONES CULTURALES,Arquitectura y Espacios Urbanos,Iglesias,http://ficha.sigmincetur.mincetur.gob.pe/index.aspx?cod_Ficha=10330,-79.5717542,-7.3999305
 La Libertad,Pacasmayo,PACASMAYO,"10,327",Maratón De Pacasmayo,5. ACONTECIMIENTOS PROGRAMADOS,Eventos,Concursos,http://ficha.sigmincetur.mincetur.gob.pe/index.aspx?cod_Ficha=10327,,
 La Libertad,Pacasmayo,PACASMAYO,"10,329",Pacasmayo Classic ,5. ACONTECIMIENTOS PROGRAMADOS,Eventos,Concursos,http://ficha.sigmincetur.mincetur.gob.pe/index.aspx?cod_Ficha=10329,,
 La Libertad,Pacasmayo,PACASMAYO,"10,333",Fiesta En Honor A La Virgen De Guadalupe De Pacasmayo,5. ACONTECIMIENTOS PROGRAMADOS,Fiestas,Fiestas religiosas-patronales,http://ficha.sigmincetur.mincetur.gob.pe/index.aspx?cod_Ficha=10333,,
