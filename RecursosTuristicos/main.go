@@ -28,6 +28,7 @@ func Listar(res http.ResponseWriter, req *http.Request) {
 	categoria := req.FormValue("categoria")
 	tipo := req.FormValue("tipo")
 	subtipo := req.FormValue("subtipo")
+	var aux []m.Recurso
 	res.Header().Set("Content-Type", "application/json; charset=utf-8")
 	for _, recurso := range recursos {
 		if !strings.EqualFold(recurso.REGION, region) && region != "" {
@@ -48,9 +49,10 @@ func Listar(res http.ResponseWriter, req *http.Request) {
 		if !strings.EqualFold(recurso.SUBTIPO, subtipo) && subtipo != "" {
 			continue
 		}
-		jsonBytes, _ := json.MarshalIndent(recurso, "", " ")
-		io.WriteString(res, string(jsonBytes))
+		aux = append(aux,recurso)
 	}
+	jsonBytes, _ := json.MarshalIndent(aux, "", " ")
+		io.WriteString(res, string(jsonBytes))
 }
 func ListarFiltrado(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-Type", "application/json; charset=utf-8")
@@ -61,8 +63,9 @@ func ListarFiltrado(res http.ResponseWriter, req *http.Request) {
 	jsonBytes, _ := json.MarshalIndent(kn(recursos,5,aea), "", " ")
 	io.WriteString(res, string(jsonBytes))
 }
-func kn(ar []m.Recurso, k int, x Ubicacion) []m.RecursoD {
-	var arraux, arraux2 []m.RecursoD
+func kn(ar []m.Recurso, k int, x Ubicacion) []m.Recurso {
+	var arraux []m.RecursoD
+	var arraux2 []m.Recurso
 	for i := 0; i < len(ar); i++{
 		distance := math.Sqrt(math.Pow(ar[i].LONGITUD - x.x,2) + math.Pow(ar[i].LATITUD - x.y,2));
 		recurso := m.RecursoD {
@@ -79,8 +82,9 @@ func kn(ar []m.Recurso, k int, x Ubicacion) []m.RecursoD {
 	// }
 	g.By(dist).Sort(arraux)
 	//TODO: agregar criterios de prediccion de categorias X
+	//fmt.Print(arraux[0].RECURSO)
 	for i:=0; i< k; i++ {
-		arraux2 = append(arraux2,arraux[i])
+		arraux2 = append(arraux2,arraux[i].RECURSO)
 	}
 	return arraux2
 }
