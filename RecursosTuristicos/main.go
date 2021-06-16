@@ -4,7 +4,7 @@ import (
 	m "RecursosTuristicos/reader"
 	g "RecursosTuristicos/sorter"
 	"encoding/json"
-	//"fmt"
+	"fmt"
 	"io"
 	"log"
 	"math"
@@ -58,11 +58,11 @@ func ListarFiltrado(res http.ResponseWriter, req *http.Request) {
 		x: -76.17,
 		y: -6.60,
 	}
-	jsonBytes, _ := json.MarshalIndent(kn(recursos,100,aea), "", " ")
+	jsonBytes, _ := json.MarshalIndent(kn(recursos,5,aea), "", " ")
 	io.WriteString(res, string(jsonBytes))
 }
 func kn(ar []m.Recurso, k int, x Ubicacion) []m.RecursoD {
-	var arraux []m.RecursoD
+	var arraux, arraux2 []m.RecursoD
 	for i := 0; i < len(ar); i++{
 		distance := math.Sqrt(math.Pow(ar[i].LONGITUD - x.x,2) + math.Pow(ar[i].LATITUD - x.y,2));
 		recurso := m.RecursoD {
@@ -78,10 +78,19 @@ func kn(ar []m.Recurso, k int, x Ubicacion) []m.RecursoD {
 	// 	return dist(p2, p1)
 	// }
 	g.By(dist).Sort(arraux)
-	// for i:=0; i< k; i++ {
-	// 	arraux2 = append(arraux2,arraux[i])
-	// }
-	return arraux
+	//TODO: agregar criterios de prediccion de categorias X
+	for i:=0; i< k; i++ {
+		arraux2 = append(arraux2,arraux[i])
+	}
+	return arraux2
+}
+func serveFiles(w http.ResponseWriter, r *http.Request) {
+    fmt.Println(r.URL.Path)
+    p := r.URL.Path
+    if p == "/listarI" {
+        p = "./static/index.html"
+    }
+    http.ServeFile(w, r, p)
 }
 // func getRecursoByRegionName(res http.ResponseWriter, req *http.Request) {
 //     nombre := req.FormValue("nombre")
@@ -101,9 +110,11 @@ func kn(ar []m.Recurso, k int, x Ubicacion) []m.RecursoD {
 func handleRequest() {
 	http.HandleFunc("/listar", Listar)
 	http.HandleFunc("/listarF", ListarFiltrado)
+	http.HandleFunc("/listarI", serveFiles)
 	//http.HandleFunc("/region",getRecursoByRegionName)
 	log.Fatal(http.ListenAndServe(":9000", nil))
 }
+
 
 func main() {
 	recursos = m.CargarCanales()
