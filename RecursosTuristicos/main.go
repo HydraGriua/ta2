@@ -1,13 +1,14 @@
 package main
 
 import (
-	m "RecursosTuristicos/reader"
 	g "RecursosTuristicos/knn"
+	m "RecursosTuristicos/reader"
 	"encoding/json"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
@@ -52,11 +53,14 @@ func Listar(res http.ResponseWriter, req *http.Request) {
 		io.WriteString(res, string(jsonBytes))
 }
 func ListarFiltrado(res http.ResponseWriter, req *http.Request) {
+	readK := req.FormValue("k")
+	K, _ := strconv.Atoi(readK)
+	fmt.Print(K)
 	res.Header().Set("Content-Type", "application/json")
 	var recursoz []g.RecursoPredict
 
 	for i :=0; i< len(recursos); i++ {
-		recursoz = append(recursoz,g.Kn(recursos,3,recursos[i]))
+		recursoz = append(recursoz,g.Kn(recursos,K,recursos[i]))
 		//fmt.Print(i,": siguiente recurso | ")
 	}
 	jsonBytes, _ := json.MarshalIndent(recursoz, "", " ")

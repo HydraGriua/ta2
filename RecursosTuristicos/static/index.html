@@ -4,7 +4,7 @@
 </head>
 <body>
   <div class="container">
-      <h3 >Recursos turisticos del Peru</h3>
+      <h3 >Recursos turisticos en los distritos del Peru </h3>
       <div class="row">
           <div class="col xl9">
               <div class="card">
@@ -20,9 +20,14 @@
                           <label for="k">Valor de K para algoritmo</label>
                       </p>
                       <br>
-                      <a id="predict">Graficar</a>
+                      <button id="predict" >Graficar</button>
                   </div>
               </div>
+              <div class="col xl9">
+                <div class="card">
+                    <div id="Table2" style="width: 100%; height: 500px;"></div>
+                </div>
+            </div>
           </div>
       </div>
   </div>
@@ -32,14 +37,22 @@
       $(document).ready(function () {
         //console.log($('#k').val())
         var recursos = []
-        var predictions = []
+        var predicciones = []
+        var k = 1
 
         $.get("http://localhost:9000/listar")
-            .done(function (data) {recursos = data});
+            .done(function (data) {
+              recursos = data
+              drawChart()
+            });
         $('#predict').on("click", function () {
-            var k = $('#k').val()
-            console.log(k)
-            drawChart()
+            k = $('#k').val()
+            $.get("http://localhost:9000/listarF?k="+k)
+              .done(function (data) {
+                predicciones = data
+                console.log(predicciones)
+                drawChart2()
+              });
         });
         function drawChart() {
               var data = []
@@ -47,32 +60,28 @@
               var y = []
               var text = []
               var marker = []
-              x["Sin Predecir"] = []
-              y["Sin Predecir"] = []
-              text["Sin Predecir"] = []
-              marker["Sin Predecir"] = { size: 1 }
               for (i = 0; i < recursos.length; i++) {
-                        var rec = recursos[i]
-                        if (!x[rec.REGION]) {
-                            x[rec.REGION] = []
-                            y[rec.REGION] = []
-                            text[rec.REGION] = []
-                            marker[rec.REGION] = { size: 1 }
-                        }
-                        x[rec.REGION].push(rec.LATITUD)
-                        y[rec.REGION].push(rec.LONGITUD)
-                        text[rec.REGION].push("Ubicacion: " + rec.REGION + ", " + rec.PROVINCIA + ", " + rec.DISTRITO + ", LA: " + rec.LATITUD + ", LO: " +rec.LONGITUD)
+                  var rec = recursos[i]
+                  if (!x[rec.DISTRITO]) {
+                      x[rec.DISTRITO] = []
+                      y[rec.DISTRITO] = []
+                      text[rec.DISTRITO] = []
+                      marker[rec.DISTRITO] = { size: 6 }
+                  }
+                  x[rec.DISTRITO].push(rec.LATITUD)
+                  y[rec.DISTRITO].push(rec.LONGITUD)
+                  text[rec.DISTRITO].push("Ubicacion: " + rec.REGION + ", " + rec.PROVINCIA + ", " + rec.DISTRITO + ", "+ rec.NOMBRE)
               }
 
-              for (REGION in x) {
+              for (DistritoP in x) {
                   data.push({
-                      x: x[REGION],
-                      y: y[REGION],
+                      x: x[DistritoP],
+                      y: y[DistritoP],
                       mode: 'markers',
                       type: 'scatter',
-                      name: REGION,
-                      text: text[REGION],
-                      marker: marker[REGION]
+                      name: DistritoP,
+                      text: text[DistritoP],
+                      marker: marker[DistritoP]
                   })
               }
 
@@ -87,8 +96,49 @@
               };
 
               Plotly.newPlot('Table', data, layout);
+      };
+      function drawChart2() {
+              var data = []
+              var x = []
+              var y = []
+              var text = []
+              var marker = []
+              for (i = 0; i < predicciones.length; i++) {
+                  var rec = predicciones[i]
+                  if (!x[rec.DistritoP]) {
+                      x[rec.DistritoP] = []
+                      y[rec.DistritoP] = []
+                      text[rec.DistritoP] = []
+                      marker[rec.DistritoP] = { size: 6 }
+                  }
+                  x[rec.DistritoP].push(rec.LATITUD)
+                  y[rec.DistritoP].push(rec.LONGITUD)
+                  text[rec.DistritoP].push("Ubicacion: " + rec.RegionP + ", " + rec.ProvinciaP + ", " + rec.DistritoP + ", "+ rec.NOMBRE)
+              }
 
-              $('#loader').hide()
+              for (DistritoP in x) {
+                  data.push({
+                      x: x[DistritoP],
+                      y: y[DistritoP],
+                      mode: 'markers',
+                      type: 'scatter',
+                      name: DistritoP,
+                      text: text[DistritoP],
+                      marker: marker[DistritoP]
+                  })
+              }
+
+              var layout = {
+                  xaxis: {
+                      title: { text: 'Longitud' }
+                  },
+                  yaxis: {
+                      title: { text: 'Latitud' }
+                  },
+                  title: 'Longitud vs Latitud'
+              };
+
+              Plotly.newPlot('Table2', data, layout);
       };
       });
 
