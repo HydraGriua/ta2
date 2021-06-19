@@ -1,49 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ta2-PrograConcurrenteDistribuida</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-    crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-    crossorigin=""></script>
+<head>
+</head>
+<body>
+  <div class="container">
+      <h3 >Recursos turisticos del Peru</h3>
+      <div class="row">
+          <div class="col xl9">
+              <div class="card">
+                  <div id="Table" style="width: 100%; height: 500px;"></div>
+              </div>
+          </div>
+          <div class="col xl3">
+              <h5>KNN</h5>
+              <div class="row">
+                  <div class="col s12">
+                      <p class="range-field">
+                          <input type="range" id="k" min="1" max="10" value="3" />
+                          <label for="k">Valor de K para algoritmo</label>
+                      </p>
+                      <br>
+                      <a id="predict">Graficar</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <script src='https://cdn.plot.ly/plotly-2.0.0.min.js'></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+      $(document).ready(function () {
+        //console.log($('#k').val())
+        var recursos = []
+        var predictions = []
 
-  </head>
-  <body>
-    <div id="mapid" style="width: 100%; height: 98vh;"></div>
-    <script type="text/javascript">
-      var mymap = L.map('mapid').setView([-12,-77], 5);
-      // [-12.0431800,-77.0282400]
-      var myRenderer = L.canvas({ padding: 0.2 });
-      L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery Â© <a href="http://cloudmade.com">CloudMade</a>',
-        maxZoom: 18
-        }).addTo(mymap);
-        let rb;
-        fetch('http://localhost:9000/listar')
-        .then(response => response.json())
-        .then(body => {
-          let keys = Object.keys(body[0]);
-          body.forEach(element => {
-            console.log(element[keys[keys.length-1]]);
-            L.circleMarker([element[keys[keys.length-1]],element[keys[keys.length-2]]],{
-              renderer: myRenderer,
-              color: '#D05940'
-            }).addTo(mymap).bindPopup(elementToString(element, keys.slice(0,keys.length-3)))
-          });
+        $.get("http://localhost:9000/listar")
+            .done(function (data) {recursos = data});
+        $('#predict').on("click", function () {
+            var k = $('#k').val()
+            console.log(k)
+            drawChart()
         });
-        function elementToString(element, keys){
-          var aux = "";
-          keys.forEach(key => {
-            aux+= key+": "+element[key]+"\r\n"
-          });
-          return aux;
-        }
-        console.log("done")
-      </script>
-  </body>
-</html>
+        function drawChart() {
+              var data = []
+              var x = []
+              var y = []
+              var text = []
+              var marker = []
+              x["Sin Predecir"] = []
+              y["Sin Predecir"] = []
+              text["Sin Predecir"] = []
+              marker["Sin Predecir"] = { size: 1 }
+              for (i = 0; i < recursos.length; i++) {
+                        var rec = recursos[i]
+                        if (!x[rec.REGION]) {
+                            x[rec.REGION] = []
+                            y[rec.REGION] = []
+                            text[rec.REGION] = []
+                            marker[rec.REGION] = { size: 1 }
+                        }
+                        x[rec.REGION].push(rec.LATITUD)
+                        y[rec.REGION].push(rec.LONGITUD)
+                        text[rec.REGION].push("Ubicacion: " + rec.REGION + ", " + rec.PROVINCIA + ", " + rec.DISTRITO + ", LA: " + rec.LATITUD + ", LO: " +rec.LONGITUD)
+              }
+
+              for (REGION in x) {
+                  data.push({
+                      x: x[REGION],
+                      y: y[REGION],
+                      mode: 'markers',
+                      type: 'scatter',
+                      name: REGION,
+                      text: text[REGION],
+                      marker: marker[REGION]
+                  })
+              }
+
+              var layout = {
+                  xaxis: {
+                      title: { text: 'Longitud' }
+                  },
+                  yaxis: {
+                      title: { text: 'Latitud' }
+                  },
+                  title: 'Longitud vs Latitud'
+              };
+
+              Plotly.newPlot('Table', data, layout);
+
+              $('#loader').hide()
+      };
+      });
+
+  </script>

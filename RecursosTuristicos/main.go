@@ -47,7 +47,7 @@ func Listar(res http.ResponseWriter, req *http.Request) {
 		}
 		aux = append(aux,recurso)
 	}
-	fmt.Print(aux)
+	//fmt.Print(aux)
 	jsonBytes, _ := json.MarshalIndent(aux, "", " ")
 		io.WriteString(res, string(jsonBytes))
 }
@@ -57,7 +57,7 @@ func ListarFiltrado(res http.ResponseWriter, req *http.Request) {
 
 	for i :=0; i< len(recursos); i++ {
 		recursoz = append(recursoz,g.Kn(recursos,3,recursos[i]))
-		fmt.Print(i,": siguiente recurso | ")
+		//fmt.Print(i,": siguiente recurso | ")
 	}
 	jsonBytes, _ := json.MarshalIndent(recursoz, "", " ")
     io.WriteString(res, string(jsonBytes))
