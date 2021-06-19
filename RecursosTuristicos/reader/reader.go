@@ -31,7 +31,7 @@ func Errcheck(er error) {
 		log.Fatal(er)
 	}
 }
-func menor(a int,b int) int{
+func Menor(a int,b int) int{
 	if a<=b{return a}else{return b}
 }
 
@@ -43,7 +43,7 @@ func CargarCanales() []Recurso{
 	lim := len(records) / 4
 	it := 0
 	for i :=0; i<len(records); i += lim{
-		cnk := records[i:menor(i+lim,len(records))]
+		cnk := records[i:Menor(i+lim,len(records))]
 		chns[it] = make(chan Recurso)
 		go Cargar(cnk, chns[it])
 		it++
@@ -102,7 +102,6 @@ func ReadData(fileName string) ([][]string, error) {
 	}
 	defer f.Close()
 	r := csv.NewReader(f)
-	// skip first line
 	if _, err := r.Read(); err != nil {
 		return [][]string{}, err
 	}

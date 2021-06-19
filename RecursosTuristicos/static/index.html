@@ -24,11 +24,12 @@
         maxZoom: 18
         }).addTo(mymap);
         let rb;
-        fetch('http://localhost:9000/listarF')
+        fetch('http://localhost:9000/listar')
         .then(response => response.json())
         .then(body => {
           let keys = Object.keys(body[0]);
           body.forEach(element => {
+            console.log(element[keys[keys.length-1]]);
             L.circleMarker([element[keys[keys.length-1]],element[keys[keys.length-2]]],{
               renderer: myRenderer,
               color: '#D05940'
