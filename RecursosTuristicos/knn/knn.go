@@ -63,7 +63,6 @@ func Pred(ar []m.RecursoD, k int, x m.Recurso) RecursoPredict {
 			subtipos[ar[i].RECURSO.SUBTIPO] += 1
 		}
 	}
-	//fmt.Print(regiones,provincias,distritos,categorias,tipos,subtipos)
 	regionesC,provinciasC,distritosC,categoriasC,tiposC,subtiposC := 0,0,0,0,0,0
 	regionP,provinciaP,distritoP,categoriaP,tipoP,subtipoP := "","","","","",""
 	for key, value := range regiones {
@@ -96,7 +95,6 @@ func Pred(ar []m.RecursoD, k int, x m.Recurso) RecursoPredict {
 			subtipoP = key
 		}
 	}
-	//fmt.Print(x, "<-prediccion")
 	rec := RecursoPredict{
 		REGION: x.REGION,
 		PROVINCIA: x.PROVINCIA,
@@ -129,41 +127,25 @@ func Dist(y m.Recurso, x m.Recurso, c chan m.RecursoD){
 }
 
 func Kn(ar []m.Recurso, k int, x m.Recurso) RecursoPredict{
-	//var arraux []m.RecursoD
 	chn := make(chan m.RecursoD)
-	//bools:= make(chan int, 4)
-	//lim := len(ar) / 4
 	it := 0
-	//fmt.Print(len(ar), "<-arreglo")
 	for i :=0; i<len(ar); i ++{
-		//cnk := ar[i:m.Menor(i+lim,len(ar))]
-		//chns[it] = make(chan m.RecursoD)
-		//bools[it] = make(chan int)
 		if ar[i].LONGITUD != x.LONGITUD && ar[i].LATITUD != x.LATITUD{
 			it++
 			go Dist(ar[i],x, chn)
 		}
-		//fmt.Print(it, " | ")
 	}
-	//fmt.Print(it, "<-iterador")
-	//fmt.Print("antes de canales")
-	//fmt.Print(len(chn))
 	var recursos []m.RecursoD
 	for recurso := range chn {
 		recursos = append(recursos, recurso)
 		it--
-		//fmt.Print(it, " | ")
 		if it == 0{
 			close(chn)
 		}
-		//fmt.Print(recurso, it)
 	}
-	//fmt.Print("se cerro")
-	//fmt.Print("siguiente canal")
 	dist := func(p1, p2 *m.RecursoD) bool {
 		return p1.DIST < p2.DIST
 	}
 	g.By(dist).Sort(recursos)
-	//fmt.Print(x, "<- recurso a predecir")
 	return Pred(recursos,k, x)
 }
